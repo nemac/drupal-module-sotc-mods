@@ -1,0 +1,4 @@
+name = "SOTC Mods"
+description = "Miscellaneous Custom Modifications for the SOTC Site"
+core = "7.x"
+dependencies[] = og

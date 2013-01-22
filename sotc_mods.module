@@ -1,0 +1,34 @@
+<?php // for emacs: -*- mode: php;-*-
+
+function sotc_mods_get_current_group_nid() {
+  return menu_get_object()->nid;
+}
+
+/**
+ * Creates link for uploading a document to a specific group.
+ */
+function sotc_mods_upload_new_document_link($type) {
+  $group_nid = sotc_mods_get_current_group_nid();
+  if ($group_nid < 0) {
+    return "";
+  }
+  $label = sprintf('Upload %s', ucwords(str_replace('-', ' ', $type)));
+  return sprintf('<a href="add/%s?og_group_ref=%1d&destination=node/%1d">%s</a>',
+                 $type,
+                 $group_nid,
+                 $group_nid,
+                 $label);
+}
+
+/**
+ * Implements hook_user_insert().
+ *
+ * Adds accounts to all existing groups when the account is created.
+ */
+function sotc_mods_user_insert (&$edit, $account, $category) {
+  $groups = og_get_all_group();
+
+  foreach ($groups as $group) {
+    og_group('node', $group, array('entity' => $account));
+  }
+}
