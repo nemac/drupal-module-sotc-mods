@@ -32,3 +32,20 @@ function sotc_mods_user_insert (&$edit, $account, $category) {
     og_group('node', $group, array('entity' => $account));
   }
 }
+
+/**
+ * Implementation of hook_form_alter().
+ *
+ * Hides group_audience field from forms if it exists and the user is not an
+ * administrator.
+ */
+function sotc_mods_form_alter (&$form, &$form_state, $form_id) {
+  global $user;
+  if (key_exists('type', $form) && key_exists('#value', $form['type'])) {
+    $type = $form['type']['#value'];
+    $is_group_content = og_get_group_type('node', $type, 'group content');
+    if ($form['#node_edit_form'] && $form['og_group_ref'] && $is_group_content && in_array('administrator', $user->roles) === FALSE) {
+      $form['og_group_ref']['#access'] = FALSE;
+    }
+  }
+}
