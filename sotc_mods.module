@@ -38,7 +38,11 @@ function sotc_mods_user_insert (&$edit, $account, $category) {
  *
  * Hides group_audience field from forms if it exists and the user is not an
  * administrator.
+ *
+ * Removed since this caused some errors with prepopulation, hiding the field
+ * is now being handled in themes/sotc/css/global.css
  */
+/*
 function sotc_mods_form_alter (&$form, &$form_state, $form_id) {
   global $user;
   if (key_exists('type', $form) && key_exists('#value', $form['type'])) {
@@ -49,3 +53,4 @@ function sotc_mods_form_alter (&$form, &$form_state, $form_id) {
     }
   }
 }
+*/
